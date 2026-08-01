@@ -46,7 +46,6 @@ def create_checkout_session():
         session = stripe.checkout.Session.create(
             mode='subscription',
             line_items=[{'price': price_id, 'quantity': 1}],
-            subscription_data={'trial_period_days': 14},
             success_url=STRIPE_SUCCESS_URL,
             cancel_url=STRIPE_CANCEL_URL,
             allow_promotion_codes=True,
