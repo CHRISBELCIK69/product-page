@@ -10,6 +10,7 @@ import os
 from flask import Flask, jsonify, request, send_from_directory
 import stripe
 
+import access_token
 import billing
 
 app = Flask(__name__, static_folder=None)
@@ -20,8 +21,20 @@ STRIPE_PRICES = {
     'desk': os.environ.get('STRIPE_PRICE_DESK', ''),
 }
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
-STRIPE_SUCCESS_URL = os.environ.get('STRIPE_SUCCESS_URL', 'http://localhost:8000/?checkout=success')
+# Stripe replaces the literal {CHECKOUT_SESSION_ID} in success_url with the
+# real session id — that's how the success page knows which row to poll for
+# its license key.
+STRIPE_SUCCESS_URL = os.environ.get('STRIPE_SUCCESS_URL', 'http://localhost:8000/?checkout=success&session_id={CHECKOUT_SESSION_ID}')
 STRIPE_CANCEL_URL  = os.environ.get('STRIPE_CANCEL_URL',  'http://localhost:8000/?checkout=cancel')
+
+# Shared secret the Discord bot presents to call the /internal/* routes
+# below. Not the same secret as ACCESS_TOKEN_SECRET — a leaked bot token
+# should not let someone mint tool-access tokens directly.
+INTERNAL_API_SECRET = os.environ.get('INTERNAL_API_SECRET', '')
+
+
+def _internal_auth_ok():
+    return bool(INTERNAL_API_SECRET) and request.headers.get('X-Internal-Secret') == INTERNAL_API_SECRET
 
 
 @app.route('/')
@@ -74,6 +87,8 @@ def stripe_webhook():
             stripe_customer_id=obj['customer'],
             email=(obj.get('customer_details') or {}).get('email'),
             stripe_subscription_id=obj.get('subscription'),
+            checkout_session_id=obj['id'],
+            license_key=billing.generate_license_key(),
             plan=(obj.get('metadata') or {}).get('plan'),
             status='active',
         )
@@ -87,6 +102,74 @@ def stripe_webhook():
         )
 
     return jsonify({'received': True})
+
+
+# ── Success page ──────────────────────────────────────────────────────────
+# Polled by the success banner's JS — the webhook above usually lands
+# before this is called, but isn't guaranteed to, hence "ready: false"
+# rather than a 404 while the customer's browser is faster than Stripe's
+# webhook delivery.
+
+@app.route('/api/license-key')
+def api_license_key():
+    session_id = request.args.get('session_id', '')
+    sub = billing.get_subscriber_by_checkout_session(session_id)
+    if not sub:
+        return jsonify({'ready': False})
+    return jsonify({'ready': True, 'license_key': sub['license_key']})
+
+
+# ── Internal API — called only by the Discord bot ────────────────────────
+# Every route here requires INTERNAL_API_SECRET. This is the only place
+# the bot's world (Discord user ids) touches billing data — the bot never
+# sees Stripe keys or the database directly.
+
+@app.route('/internal/redeem-license', methods=['POST'])
+def internal_redeem_license():
+    if not _internal_auth_ok():
+        return jsonify({'error': 'forbidden'}), 403
+
+    body       = request.get_json(force=True) or {}
+    key        = (body.get('license_key') or '').strip()
+    discord_id = body.get('discord_user_id')
+    if not key or not discord_id:
+        return jsonify({'error': 'license_key and discord_user_id are required'}), 400
+
+    sub = billing.get_subscriber_by_license_key(key)
+    if not sub or sub['status'] not in ('active', 'trialing'):
+        return jsonify({'error': 'invalid or inactive license key'}), 404
+
+    existing = billing.get_subscriber_by_discord_id(discord_id)
+    if existing and existing['stripe_customer_id'] != sub['stripe_customer_id']:
+        return jsonify({'error': 'this Discord account is already linked to a different subscription'}), 409
+
+    billing.link_discord_user(sub['stripe_customer_id'], discord_id)
+    return jsonify({'ok': True, 'plan': sub['plan']})
+
+
+@app.route('/internal/subscriber-status', methods=['POST'])
+def internal_subscriber_status():
+    if not _internal_auth_ok():
+        return jsonify({'error': 'forbidden'}), 403
+
+    body = request.get_json(force=True) or {}
+    sub  = billing.get_subscriber_by_discord_id(body.get('discord_user_id'))
+    active = bool(sub and sub['status'] in ('active', 'trialing'))
+    return jsonify({'active': active, 'plan': sub['plan'] if sub else None})
+
+
+@app.route('/internal/mint-access-token', methods=['POST'])
+def internal_mint_access_token():
+    if not _internal_auth_ok():
+        return jsonify({'error': 'forbidden'}), 403
+
+    body = request.get_json(force=True) or {}
+    sub  = billing.get_subscriber_by_discord_id(body.get('discord_user_id'))
+    if not sub or sub['status'] not in ('active', 'trialing'):
+        return jsonify({'error': 'no active subscription linked to this Discord account'}), 403
+
+    token = access_token.mint(sub['stripe_customer_id'])
+    return jsonify({'token': token})
 
 
 if __name__ == '__main__':
