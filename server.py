@@ -37,6 +37,14 @@ def _internal_auth_ok():
     return bool(INTERNAL_API_SECRET) and request.headers.get('X-Internal-Secret') == INTERNAL_API_SECRET
 
 
+def _stripe_get(obj, key, default=None):
+    """obj[key] with a default — StripeObject doesn't support .get() like a dict does."""
+    try:
+        return obj[key]
+    except (KeyError, TypeError):
+        return default
+
+
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
@@ -83,13 +91,15 @@ def stripe_webhook():
     obj = event['data']['object']
 
     if event['type'] == 'checkout.session.completed':
+        customer_details = _stripe_get(obj, 'customer_details') or {}
+        metadata = _stripe_get(obj, 'metadata') or {}
         billing.upsert_subscriber(
             stripe_customer_id=obj['customer'],
-            email=(obj.get('customer_details') or {}).get('email'),
-            stripe_subscription_id=obj.get('subscription'),
+            email=_stripe_get(customer_details, 'email'),
+            stripe_subscription_id=_stripe_get(obj, 'subscription'),
             checkout_session_id=obj['id'],
             license_key=billing.generate_license_key(),
-            plan=(obj.get('metadata') or {}).get('plan'),
+            plan=_stripe_get(metadata, 'plan'),
             status='active',
         )
 
