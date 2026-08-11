@@ -395,7 +395,7 @@
     background:var(--line);border:1px solid var(--line);
     margin-bottom:40px;
   }
-  @media(min-width:820px){.learn-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:820px){.learn-grid{grid-template-columns:repeat(2,1fr);}}
   .learn-card{background:var(--ink);padding:28px 26px;}
   .learn-card .tag{
     font-family:var(--font-mono);font-size:11px;color:var(--blue);
