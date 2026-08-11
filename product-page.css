@@ -356,6 +356,10 @@
   }
   .flow-step p{color:var(--text-dim);font-size:14px;line-height:1.6;}
 
+  /* ---------- PROOF (centered) ---------- */
+  #proof .section-head{margin-left:auto;margin-right:auto;text-align:center;}
+  #proof .tool-demo{margin-left:auto;margin-right:auto;}
+
   /* ---------- TERMINAL / PROOF ---------- */
   .terminal{
     background:var(--panel);
@@ -432,22 +436,13 @@
   /* ---------- PRICING ---------- */
 
   .pricing-grid{
-    display:grid;grid-template-columns:1fr;gap:1px;
-    background:var(--line);border:1px solid var(--line);
+    display:grid;grid-template-columns:1fr;
+    max-width:400px;margin:0 auto;
+    border:1px solid var(--line);border-radius:4px;overflow:hidden;
   }
-  @media(min-width:860px){.pricing-grid{grid-template-columns:repeat(3,1fr);}}
   .plan{
-    background:var(--ink);padding:32px 28px;display:flex;flex-direction:column;
+    background:var(--panel);padding:32px 28px;display:flex;flex-direction:column;
   }
-  .plan.feature{background:var(--panel);position:relative;}
-  .plan.feature::before{
-    content:'RECOMMENDED';
-    position:absolute;top:0;left:0;right:0;
-    background:var(--amber);color:var(--ink);
-    font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.08em;
-    text-align:center;padding:5px 0;font-weight:700;
-  }
-  .plan.feature .plan-name{margin-top:18px;}
   .plan-name{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;}
   .plan-price{
     font-family:var(--font-display);font-size:38px;font-weight:700;margin:14px 0 4px;
