@@ -37,7 +37,7 @@
       </div>
       <div class="hero-meta">
         <div><div class="num">80+</div><div class="lbl">exit strategies per run</div></div>
-        <div><div class="num">1-min</div><div class="lbl">Polygon bar resolution</div></div>
+        <div><div class="num">1-min</div><div class="lbl">bar resolution</div></div>
         <div><div class="num">&lt;90s</div><div class="lbl">per full report</div></div>
       </div>
     </div>
@@ -101,8 +101,8 @@
   <div class="wrap">
     <div class="section-head">
       <div class="section-tag">What the engine tests</div>
-      <h2>80+ exit strategies, replayed bar-by-bar on live Polygon options data.</h2>
-      <p class="section-sub">Paste an OCC-format options contract with an entry time and the engine fetches 1-minute bars directly from Polygon, then walks every bar applying each strategy exactly as it would have fired live — no lookahead, no approximations.</p>
+      <h2>80+ exit strategies, replayed bar-by-bar on live options data.</h2>
+      <p class="section-sub">Paste an OCC-format options contract with an entry time and the engine fetches 1-minute bars, then walks every bar applying each strategy exactly as it would have fired live — no lookahead, no approximations.</p>
     </div>
 
     <div class="stop-table">
@@ -168,7 +168,7 @@
       <div class="flow-step">
         <div class="idx">Connect</div>
         <h3>Paste your options contracts</h3>
-        <p>Enter OCC-format contracts with entry time — one per line (e.g. <code style="font-family:var(--font-mono);font-size:12px;color:var(--amber)">SPY260112C00690000, 09:30</code>). The engine fetches 1-minute bar data directly from Polygon. No CSV, no manual data prep.</p>
+        <p>Enter OCC-format contracts with entry time — one per line (e.g. <code style="font-family:var(--font-mono);font-size:12px;color:var(--amber)">SPY260112C00690000, 09:30</code>). The engine fetches 1-minute bar data automatically. No CSV, no manual data prep.</p>
       </div>
       <div class="flow-step">
         <div class="idx">Simulate</div>
