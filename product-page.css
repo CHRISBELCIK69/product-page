@@ -458,23 +458,6 @@
   .plan-features li:first-child{border-top:none;}
   .plan .btn{justify-content:center;width:100%;}
 
-  /* ---------- FINAL CTA ---------- */
-  .cta-final{
-    text-align:left;
-    border-bottom:none;
-  }
-  .cta-box{
-    border:1px solid var(--line);
-    background:var(--panel);
-    padding:56px 40px;
-    border-radius:4px;
-    display:flex;flex-direction:column;gap:22px;align-items:flex-start;
-  }
-  @media(min-width:800px){
-    .cta-box{flex-direction:row;justify-content:space-between;align-items:center;}
-  }
-  .cta-box h2{max-width:16ch;}
-
   footer{padding:40px 0;}
   footer .wrap{
     display:flex;flex-direction:column;gap:18px;
@@ -485,3 +468,25 @@
   }
   footer .foot-links{display:flex;gap:22px;}
   footer .foot-links a:hover{color:var(--text-dim);}
+
+  /* ---------- PHONE (iPhone-width) CENTERING ---------- */
+  @media(max-width:480px){
+    nav .wrap{justify-content:center;gap:24px;}
+
+    .hero-grid{text-align:center;}
+    .eyebrow{justify-content:center;}
+    .eyebrow::before{display:none;}
+    h1,.hero-sub{margin-left:auto;margin-right:auto;}
+    .hero-actions,.hero-meta{justify-content:center;}
+
+    .section-head{text-align:center;}
+    .problem-card,.learn-card,.flow-step{text-align:center;}
+
+    .discord-panel .dtext{margin:0 auto;text-align:center;}
+
+    .plan{text-align:center;align-items:center;}
+    .plan-features{align-self:stretch;text-align:left;}
+
+    footer .wrap{align-items:center;text-align:center;}
+    footer .foot-links{justify-content:center;}
+  }
