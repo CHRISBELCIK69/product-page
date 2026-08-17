@@ -122,10 +122,8 @@ function renderMeta(sc, key) {
   document.getElementById('contractMeta').innerHTML =
     `<span class="meta-occ">${sc.occ}</span>` +
     `<span class="meta-sep">&middot;</span>` +
-    `<span>${typeLabel} &middot; expiry ${fmtDate(sc.expiry)}</span>` +
-    (s0 ? `<span class="meta-sep">&middot;</span><span>entry ${fmtDate(s0.entryTs)} @ $${s0.entryPrice.toFixed(2)}</span>` : '') +
-    `<span class="meta-sep">&middot;</span>` +
-    `<span class="meta-insight ${key}">${SC_META[key].insight}</span>`;
+    `<span>${typeLabel} &middot; exp ${fmtDate(sc.expiry)}</span>` +
+    (s0 ? `<span class="meta-sep">&middot;</span><span>entry $${s0.entryPrice.toFixed(2)}</span>` : '');
 }
 
 // ── Option price chart ────────────────────────────────────────────────────────
@@ -217,9 +215,10 @@ function drawChart(sc) {
   }
 }
 
-// ── Underlying (SPY) chart ────────────────────────────────────────────────────
+// ── Underlying (SPY) chart ──────────────────────────────────────────────────
 function drawUnderlyingChart(sc) {
   const canvas = document.getElementById('underlyingChart');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.parentElement.clientWidth || 700;
@@ -300,17 +299,14 @@ function renderTable(sc) {
     const pos=s.pnl>0, neg=s.pnl<0;
     const pnlStr=(pos?'+':neg?'−':'')+'$'+Math.abs(s.pnl).toFixed(0);
     return `<div class="strat-row${s.pnl===bestPnl?' best':''}">
-      <div class="sdot" style="background:${STRAT_COLORS[i]}"></div>
-      <div class="sinfo">
-        <div class="sname">${s.name}</div>
-        <div class="sdesc">${STRAT_DESCS[s.id]||''}</div>
+      <div class="stop-head">
+        <span class="sdot" style="background:${STRAT_COLORS[i]}"></span>
+        <span class="sname">${s.name}</span>
       </div>
+      <div class="sdesc">${STRAT_DESCS[s.id]||''}</div>
       <div class="sright">
-        <div class="spnl ${pos?'pos':neg?'neg':'zero'}">${pnlStr}</div>
-        <div class="sexit">
-          <span class="sexit-badge ${exitMap[s.exitReason]||'eod'}">${fmtExit(s.exitReason)}</span>
-          <span class="sexit-time">${s.exitTs?fmtTime(s.exitTs):''}</span>
-        </div>
+        <span class="spnl ${pos?'pos':neg?'neg':'zero'}">${pnlStr}</span>
+        <span class="sexit-badge ${exitMap[s.exitReason]||'eod'}">${fmtExit(s.exitReason)}</span>
       </div>
     </div>`;
   }).join('');

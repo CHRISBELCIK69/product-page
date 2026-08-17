@@ -198,36 +198,26 @@
           <div class="sc-badge win">▲ WIN</div>
           <div class="sc-ticker">SPY 690C</div>
           <div class="sc-pnl win">+$80</div>
-          <div class="sc-tagline">Tariff pause rally — the trailing stop got shaken out early, missing the $80 move</div>
         </div>
         <div class="sc-card lose" onclick="setScenario('lose')" id="sc_lose">
           <div class="sc-badge lose">▼ LOSE</div>
           <div class="sc-ticker">SPY 680P</div>
           <div class="sc-pnl lose">−$98</div>
-          <div class="sc-tagline">SPY kept ripping — fast exits saved $200 vs waiting for a reversal</div>
         </div>
         <div class="sc-card chop" onclick="setScenario('chop')" id="sc_chop">
           <div class="sc-badge chop">─ CHOP</div>
           <div class="sc-ticker">SPY 660P</div>
           <div class="sc-pnl chop">+$55</div>
-          <div class="sc-tagline">Post-bounce consolidation — structured take-profit outperformed trailing 2.5×</div>
         </div>
       </div>
 
       <div class="contract-meta" id="contractMeta"></div>
 
-      <div class="chart-section-label">Option price &amp; stop levels</div>
       <div class="chart-wrapper">
-        <canvas id="demoChart" height="268"></canvas>
+        <canvas id="demoChart" height="200"></canvas>
         <div class="strat-toggles" id="stratToggles"></div>
       </div>
 
-      <div class="chart-section-label">SPY underlying</div>
-      <div class="chart-wrapper ub-chart-wrapper">
-        <canvas id="underlyingChart" height="148"></canvas>
-      </div>
-
-      <div class="strat-section-label">5 stop strategies &mdash; same entry, same bars, different rules</div>
       <div class="strat-table" id="stratTable"></div>
     </div>
   </div>
