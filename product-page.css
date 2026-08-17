@@ -64,6 +64,7 @@
     box-shadow:0 0 8px var(--amber);
     display:inline-block;
   }
+  .logo-mark{width:24px;height:24px;flex:none;display:block;}
   .nav-links{display:flex;gap:36px;align-items:center;}
   .nav-links a{
     font-size:14px;color:var(--text-dim);
@@ -336,6 +337,20 @@
       color:var(--text-faint);margin-bottom:4px;text-transform:uppercase;
     }
   }
+
+  /* ---------- STOP TYPES (card grid) ---------- */
+  .stopfam-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:700px){.stopfam-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1040px){.stopfam-grid{grid-template-columns:repeat(3,1fr);}}
+  .stopfam-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px;}
+  .stopfam-card.highlight{border-color:rgba(255,176,32,.35);background:rgba(255,176,32,.045);}
+  .stopfam-card .top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .stopfam-card .dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .stopfam-card h3{font-family:var(--font-display);font-size:16px;font-weight:600;}
+  .stopfam-card .formula{font-family:var(--font-mono);font-size:12.5px;color:var(--text-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:9px 11px;margin-bottom:12px;}
+  .stopfam-card .watch{font-size:13.5px;color:var(--text-dim);line-height:1.55;}
+  .stopfam-card.highlight h3{color:var(--amber);}
+  .stopfam-card.highlight .dot{background:var(--amber);box-shadow:0 0 6px var(--amber);}
 
   /* ---------- HOW IT WORKS ---------- */
   .flow{

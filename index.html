@@ -13,13 +13,18 @@
 
 <nav>
   <div class="wrap">
-    <div class="logo"><span class="mark"></span>VERTEX ALGO</div>
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="110,8 195,58 195,162 110,212 25,162 25,58" fill="none" stroke="var(--line)" stroke-width="10"/>
+        <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <polyline points="60,150 110,70 160,150" stroke="var(--text-dim)" stroke-width="20"/>
+          <line x1="82" y1="118" x2="138" y2="118" stroke="var(--text-dim)" stroke-width="20"/>
+          <polyline points="60,70 110,150 160,70" stroke="var(--amber)" stroke-width="20"/>
+        </g>
+      </svg>
+      VERTEX ALGO
+    </div>
     <div class="nav-links">
-      <a href="#problem">Why stops fail</a>
-      <a href="#stops">Stop types</a>
-      <a href="#how">How it works</a>
-      <a href="#learn">Learn</a>
-      <a href="#pricing">Pricing</a>
       <a class="nav-cta" href="#pricing">Start backtest</a>
     </div>
   </div>
@@ -29,14 +34,14 @@
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">Options exit strategy engine</div>
-      <h1>Your entries are fine.<br>Your <em>exits</em> are costing you.</h1>
-      <p class="hero-sub">Vertex Algo runs 80+ exit strategies against your options contracts — bracket TP/SL, trailing stops, ATR, VWAP, delta thresholds, IV triggers, greek-based exits, and more — then ranks them by Sharpe, P&L, and win rate so you know exactly which one fits your trade.</p>
+      <h1>The strategy works.<br>But your <em>exits</em> are costing you.</h1>
+      <p class="hero-sub">Vertex Algo runs 100+ programmatically designed exit strategies against your options contracts, then ranks them by Sharpe, P&L, and win rate — so you can find the best stop loss idea for your strategy.</p>
       <div class="hero-actions">
-        <a href="#pricing" class="btn btn-primary">Subscribe — $20/mo →</a>
+        <a href="#pricing" class="btn btn-primary">Start your 7-day free trial →</a>
         <a href="#how" class="btn btn-ghost">See how it works</a>
       </div>
       <div class="hero-meta">
-        <div><div class="num">80+</div><div class="lbl">exit strategies per run</div></div>
+        <div><div class="num">100+</div><div class="lbl">exit strategies per run</div></div>
         <div><div class="num">1-min</div><div class="lbl">bar resolution</div></div>
         <div><div class="num">&lt;90s</div><div class="lbl">per full report</div></div>
       </div>
@@ -75,12 +80,12 @@
     <div class="section-head">
       <div class="section-tag">The problem</div>
       <h2>Most algos lose money on the stop, not the signal.</h2>
-      <p class="section-sub">Traders spend months tuning entry ideas and market timing, then slap on a stop-loss not fitted to the stratagys niche movements.</p>
+      <p class="section-sub">Traders spend months tuning entry ideas and market timing, then slap on a stop-loss not fitted to the strategy's niche movements.</p>
     </div>
     <div class="problem-grid">
       <div class="problem-card">
         <div class="tag">TOO TIGHT</div>
-        <h3>Whipsawed out</h3>
+        <h3>Chopped out</h3>
         <p>A stop sized for calm markets gets clipped by normal noise, turning winning trades into losses before the move even starts.</p>
       </div>
       <div class="problem-card">
@@ -101,58 +106,45 @@
   <div class="wrap">
     <div class="section-head">
       <div class="section-tag">What the engine tests</div>
-      <h2>80+ exit strategies, replayed bar-by-bar on live options data.</h2>
+      <h2>100+ exit strategies, replayed bar-by-bar on live options data.</h2>
       <p class="section-sub">Paste an OCC-format options contract with an entry time and the engine fetches 1-minute bars, then walks every bar applying each strategy exactly as it would have fired live — no lookahead, no approximations.</p>
     </div>
 
-    <div class="stop-table">
-      <div class="stop-row head">
-        <div>Strategy family</div>
-        <div>How it's calculated</div>
-        <div>Variants tested</div>
-        <div>What to watch for</div>
+    <div class="stopfam-grid">
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Bracket (TP + SL)</h3></div>
+        <div class="formula">TP +X% / SL −Y% from entry</div>
+        <p class="watch">Watches for whether your risk-to-reward ratio actually holds up against the real win rate on your contracts.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>Bracket (TP + SL)</div>
-        <div class="val" data-label="How it's calculated">Take profit at +X%, stop loss at −Y% from entry</div>
-        <div class="val" data-label="Variants tested">TP50/SL15, TP100/SL25, TP25/SL15 and more (12 R:R combos)</div>
-        <div class="val" data-label="What to watch for">R:R ratio vs actual win rate on your contracts</div>
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Trailing stop</h3></div>
+        <div class="formula">highest close since entry − trailing offset</div>
+        <p class="watch">Watches for how much open profit it gives back before locking in a gain, since a trail set too tight gets chopped out.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>Trailing stop</div>
-        <div class="val" data-label="How it's calculated">Highest close since entry − trailing offset (% or $)</div>
-        <div class="val" data-label="Variants tested">10%, 15%, 20%, 25%, 30%, dollar-based</div>
-        <div class="val" data-label="What to watch for">Gives back open profit — too tight = whipsawed</div>
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>ATR / volatility stop</h3></div>
+        <div class="formula">entry − (N × ATR), recalculated per bar</div>
+        <p class="watch">Watches for how sensitive the stop is to its lookback window during high-volatility regimes.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>ATR / volatility stop</div>
-        <div class="val" data-label="How it's calculated">Entry − (N × ATR) or stddev envelope, recalculated per bar</div>
-        <div class="val" data-label="Variants tested">ATR trail, Bollinger stop, DevStop, vol spike exit</div>
-        <div class="val" data-label="What to watch for">Lookback window sensitivity; wide in high-vol regimes</div>
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Greek-based exit</h3></div>
+        <div class="formula">delta / vega / theta / charm cross threshold</div>
+        <p class="watch">Watches for how the stop reacts to your actual risk profile, not just the raw price move.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>Greek-based exit</div>
-        <div class="val" data-label="How it's calculated">Exit when delta, vega, theta, charm, or vanna cross a threshold — computed from live Black-Scholes per bar</div>
-        <div class="val" data-label="Variants tested">Delta 0.30 / 0.40 / 0.50, delta trail, vega limit, charm, vanna, theta rate</div>
-        <div class="val" data-label="What to watch for">Options-native — reacts to the actual risk profile, not just price</div>
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>IV / VIX trigger</h3></div>
+        <div class="formula">IV or VIX proxy crosses regime threshold</div>
+        <p class="watch">Watches for volatility mean-reverting after an event, so you can exit before an IV crush eats the position.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>IV / VIX trigger</div>
-        <div class="val" data-label="How it's calculated">Exit when implied volatility or a VIX proxy crosses a regime threshold</div>
-        <div class="val" data-label="Variants tested">VIX trigger, vol skew change, calendar IV diff, IV crush</div>
-        <div class="val" data-label="What to watch for">Volatility mean-reversion after events; avoids holding through crush</div>
+      <div class="stopfam-card">
+        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>VWAP / underlying move</h3></div>
+        <div class="formula">VWAP cross or underlying % / ATR move</div>
+        <p class="watch">Watches for how closely the exit tracks both the underlying price action and the option premium.</p>
       </div>
-      <div class="stop-row">
-        <div class="name" data-label="Strategy family"><span class="dot" style="background:var(--text-faint)"></span>VWAP / underlying move</div>
-        <div class="val" data-label="How it's calculated">Exit on VWAP cross, underlying % move, underlying ATR, or technical level breach</div>
-        <div class="val" data-label="Variants tested">VWAP stop, underlying pct move, underlying dollar move, underlying ATR</div>
-        <div class="val" data-label="What to watch for">Tracks the underlying's price action rather than the option premium</div>
-      </div>
-      <div class="stop-row highlight">
-        <div class="name" data-label="Strategy family"><span class="dot"></span>All 80+ strategies — head to head</div>
-        <div class="val" data-label="How it's calculated">Same contracts, same fills, strategy logic swapped per run</div>
-        <div class="val" data-label="Variants tested">Every strategy across every contract in one run</div>
-        <div class="val" data-label="What to watch for">Full leaderboard: Sharpe, total P&L, win rate, profit factor, exit reason breakdown</div>
+      <div class="stopfam-card highlight">
+        <div class="top"><span class="dot"></span><h3>All 100+ strategies — head to head</h3></div>
+        <div class="formula">same contracts, same fills, strategy logic swapped per run</div>
+        <p class="watch">Full leaderboard: Sharpe, total P&amp;L, win rate, profit factor, exit reason breakdown.</p>
       </div>
     </div>
   </div>
@@ -173,7 +165,7 @@
       <div class="flow-step">
         <div class="idx">Simulate</div>
         <h3>Every exit strategy runs simultaneously</h3>
-        <p>80+ strategies — bracket TP/SL, trailing %, ATR, VWAP, delta thresholds, IV triggers, greek-based exits — replay bar-by-bar against the same bars and fills. Greeks are computed live per bar where needed.</p>
+        <p>100+ strategies — bracket TP/SL, trailing %, ATR, VWAP, delta thresholds, IV triggers, greek-based exits — replay bar-by-bar against the same bars and fills. Greeks are computed live per bar where needed.</p>
       </div>
       <div class="flow-step">
         <div class="idx">Decide</div>
@@ -259,7 +251,7 @@
         <p class="plan-desc">Unlimited backtests, plus the Vertex Algo Discord.</p>
         <ul class="plan-features">
           <li>Unlimited backtests</li>
-          <li>80+ exit strategies compared side by side</li>
+          <li>100+ exit strategies compared side by side</li>
           <li>Full Discord: code & math channels, live sessions</li>
         </ul>
         <a href="#" class="btn btn-primary" onclick="startCheckout('desk', this); return false;">Subscribe now</a>

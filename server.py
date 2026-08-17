@@ -91,6 +91,7 @@ def create_checkout_session():
             cancel_url=STRIPE_CANCEL_URL,
             allow_promotion_codes=True,
             metadata={'plan': plan},
+            subscription_data={'trial_period_days': 7},
         )
     except stripe.error.StripeError as e:
         return jsonify({'error': str(e)}), 400
