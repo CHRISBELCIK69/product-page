@@ -30,6 +30,45 @@
   </div>
 </nav>
 
+<section id="proof">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">// Try it yourself</div>
+      <h2>Same entry. Same bars. Five different exits.</h2>
+      <p class="section-sub">Three real SPY contracts from April 2026 — same fills, same data, only the exit rule changes. Pick a scenario to see how stop selection alone moves the outcome.</p>
+    </div>
+
+    <div class="tool-demo">
+      <div class="sc-row">
+        <div class="sc-card win active" onclick="setScenario('win')" id="sc_win">
+          <div class="sc-badge win">▲ WIN</div>
+          <div class="sc-ticker">SPY 690C</div>
+          <div class="sc-pnl win">+$80</div>
+        </div>
+        <div class="sc-card lose" onclick="setScenario('lose')" id="sc_lose">
+          <div class="sc-badge lose">▼ LOSE</div>
+          <div class="sc-ticker">SPY 680P</div>
+          <div class="sc-pnl lose">−$98</div>
+        </div>
+        <div class="sc-card chop" onclick="setScenario('chop')" id="sc_chop">
+          <div class="sc-badge chop">─ CHOP</div>
+          <div class="sc-ticker">SPY 660P</div>
+          <div class="sc-pnl chop">+$55</div>
+        </div>
+      </div>
+
+      <div class="contract-meta" id="contractMeta"></div>
+
+      <div class="chart-wrapper">
+        <canvas id="demoChart" height="200"></canvas>
+        <div class="strat-toggles" id="stratToggles"></div>
+      </div>
+
+      <div class="strat-table" id="stratTable"></div>
+    </div>
+  </div>
+</section>
+
 <header class="hero">
   <div class="wrap hero-grid">
     <div class="eyebrow">Options exit strategy engine</div>
@@ -144,45 +183,6 @@
         <h3>Leaderboard + AI analysis</h3>
         <p>Full ranking table sorted by Sharpe, total P&L, win rate, or profit factor. Exit reason breakdown per strategy. Overlay any stop trace on the price chart. Hit the AI Summary button for an instant narrative analysis of what worked and why.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="proof">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-tag">// Try it yourself</div>
-      <h2>Same entry. Same bars. Five different exits.</h2>
-      <p class="section-sub">Three real SPY contracts from April 2026 — same fills, same data, only the exit rule changes. Pick a scenario to see how stop selection alone moves the outcome.</p>
-    </div>
-
-    <div class="tool-demo">
-      <div class="sc-row">
-        <div class="sc-card win active" onclick="setScenario('win')" id="sc_win">
-          <div class="sc-badge win">▲ WIN</div>
-          <div class="sc-ticker">SPY 690C</div>
-          <div class="sc-pnl win">+$80</div>
-        </div>
-        <div class="sc-card lose" onclick="setScenario('lose')" id="sc_lose">
-          <div class="sc-badge lose">▼ LOSE</div>
-          <div class="sc-ticker">SPY 680P</div>
-          <div class="sc-pnl lose">−$98</div>
-        </div>
-        <div class="sc-card chop" onclick="setScenario('chop')" id="sc_chop">
-          <div class="sc-badge chop">─ CHOP</div>
-          <div class="sc-ticker">SPY 660P</div>
-          <div class="sc-pnl chop">+$55</div>
-        </div>
-      </div>
-
-      <div class="contract-meta" id="contractMeta"></div>
-
-      <div class="chart-wrapper">
-        <canvas id="demoChart" height="200"></canvas>
-        <div class="strat-toggles" id="stratToggles"></div>
-      </div>
-
-      <div class="strat-table" id="stratTable"></div>
     </div>
   </div>
 </section>

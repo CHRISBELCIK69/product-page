@@ -90,14 +90,19 @@
   }
 
   /* ---------- HERO ---------- */
+  header.hero,
+  #proof{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:40px 40px;
+  }
   header.hero{
     padding:96px 0 80px;
     border-bottom:1px solid var(--line);
     position:relative;
     overflow:hidden;
     text-align:center;
-    background-image:radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size:24px 24px;
   }
   .hero-grid{
     max-width:760px;
