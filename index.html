@@ -32,45 +32,17 @@
 
 <header class="hero">
   <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">Options exit strategy engine</div>
-      <h1>The strategy works.<br>But your <em>exits</em> are costing you.</h1>
-      <p class="hero-sub">Vertex Algo runs 100+ programmatically designed exit strategies against your options contracts, then ranks them by Sharpe, P&L, and win rate — so you can find the best stop loss idea for your strategy.</p>
-      <div class="hero-actions">
-        <a href="#pricing" class="btn btn-primary">Start your 7-day free trial →</a>
-        <a href="#how" class="btn btn-ghost">See how it works</a>
-      </div>
-      <div class="hero-meta">
-        <div><div class="num">100+</div><div class="lbl">exit strategies per run</div></div>
-        <div><div class="num">1-min</div><div class="lbl">bar resolution</div></div>
-        <div><div class="num">&lt;90s</div><div class="lbl">per full report</div></div>
-      </div>
+    <div class="eyebrow">Options exit strategy engine</div>
+    <h1>The strategy works.<br>But your <em>exits</em> are costing you.</h1>
+    <p class="hero-sub">Vertex Algo runs 100+ programmatically designed exit strategies against your options contracts, then ranks them by Sharpe, P&L, and win rate — so you can find the best stop loss idea for your strategy.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn btn-primary">Start your 7-day free trial →</a>
+      <a href="#how" class="btn btn-ghost">See how it works</a>
     </div>
-
-    <div class="chart-panel">
-      <div class="chart-head">
-        <span class="pair">SPY · 1m · 0DTE Call</span>
-        <span class="price">18,942.25</span>
-      </div>
-      <svg class="chart-svg" viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg">
-        <path class="price-path" d="M10,170 L55,150 L95,158 L140,110 L175,120 L210,78 L245,92 L280,55 L320,70 L360,40 L400,50 L440,28" />
-        <path class="stop-path" d="M10,190 L95,178 L175,140 L245,112 L320,90 L400,70 L440,48" />
-        <line class="fixed-stop-line" x1="10" y1="196" x2="440" y2="196" />
-        <g class="whipsaw-mark">
-          <circle cx="245" cy="92" r="4" />
-          <text x="253" y="88">stopped out (fixed)</text>
-        </g>
-        <circle class="cursor-dot" cx="440" cy="28" r="4" />
-      </svg>
-      <div class="chart-legend">
-        <span><i class="swatch sw-price"></i>Price</span>
-        <span><i class="swatch sw-adaptive"></i>Bracket TP50/SL15 (best)</span>
-        <span><i class="swatch sw-fixed"></i>Fixed 20% stop</span>
-      </div>
-      <div class="chart-caption">
-        <span>Fixed stop exits at bar 42</span>
-        <span style="color:var(--amber)">Adaptive stop still in trade, +38% more captured</span>
-      </div>
+    <div class="hero-meta">
+      <div><div class="num">100+</div><div class="lbl">exit strategies / run</div></div>
+      <div><div class="num">1m</div><div class="lbl">bar resolution</div></div>
+      <div><div class="num">&lt;90s</div><div class="lbl">per full report</div></div>
     </div>
   </div>
 </header>
@@ -78,7 +50,7 @@
 <section id="problem">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">The problem</div>
+      <div class="section-tag">// The problem</div>
       <h2>Most algos lose money on the stop, not the signal.</h2>
       <p class="section-sub">Traders spend months tuning entry ideas and market timing, then slap on a stop-loss not fitted to the strategy's niche movements.</p>
     </div>
@@ -105,46 +77,46 @@
 <section id="stops">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">What the engine tests</div>
+      <div class="section-tag">// What the engine tests</div>
       <h2>100+ exit strategies, replayed bar-by-bar on live options data.</h2>
       <p class="section-sub">Paste an OCC-format options contract with an entry time and the engine fetches 1-minute bars, then walks every bar applying each strategy exactly as it would have fired live — no lookahead, no approximations.</p>
     </div>
 
     <div class="stopfam-grid">
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Bracket (TP + SL)</h3></div>
+        <div class="top"><h3>Bracket (TP + SL)</h3></div>
         <div class="formula">TP +X% / SL −Y% from entry</div>
-        <p class="watch">Watches for whether your risk-to-reward ratio actually holds up against the real win rate on your contracts.</p>
+        <p class="watch"><strong>Watches for:</strong> whether your risk-to-reward ratio actually holds up against the real win rate on your contracts.</p>
       </div>
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Trailing stop</h3></div>
-        <div class="formula">highest close since entry − trailing offset</div>
-        <p class="watch">Watches for how much open profit it gives back before locking in a gain, since a trail set too tight gets chopped out.</p>
+        <div class="top"><h3>Trailing stop</h3></div>
+        <div class="formula">highest close since entry − offset</div>
+        <p class="watch"><strong>Watches for:</strong> how much open profit it gives back before locking in a gain, since a trail set too tight gets chopped out.</p>
       </div>
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>ATR / volatility stop</h3></div>
+        <div class="top"><h3>ATR / volatility stop</h3></div>
         <div class="formula">entry − (N × ATR), recalculated per bar</div>
-        <p class="watch">Watches for how sensitive the stop is to its lookback window during high-volatility regimes.</p>
+        <p class="watch"><strong>Watches for:</strong> how sensitive the stop is to its lookback window during high-volatility regimes.</p>
       </div>
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>Greek-based exit</h3></div>
+        <div class="top"><h3>Greek-based exit</h3></div>
         <div class="formula">delta / vega / theta / charm cross threshold</div>
-        <p class="watch">Watches for how the stop reacts to your actual risk profile, not just the raw price move.</p>
+        <p class="watch"><strong>Watches for:</strong> how the stop reacts to your actual risk profile, not just the raw price move.</p>
       </div>
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>IV / VIX trigger</h3></div>
+        <div class="top"><h3>IV / VIX trigger</h3></div>
         <div class="formula">IV or VIX proxy crosses regime threshold</div>
-        <p class="watch">Watches for volatility mean-reverting after an event, so you can exit before an IV crush eats the position.</p>
+        <p class="watch"><strong>Watches for:</strong> volatility mean-reverting after an event, so you can exit before an IV crush eats the position.</p>
       </div>
       <div class="stopfam-card">
-        <div class="top"><span class="dot" style="background:var(--text-faint)"></span><h3>VWAP / underlying move</h3></div>
+        <div class="top"><h3>VWAP / underlying move</h3></div>
         <div class="formula">VWAP cross or underlying % / ATR move</div>
-        <p class="watch">Watches for how closely the exit tracks both the underlying price action and the option premium.</p>
+        <p class="watch"><strong>Watches for:</strong> how closely the exit tracks both the underlying price action and the option premium.</p>
       </div>
       <div class="stopfam-card highlight">
-        <div class="top"><span class="dot"></span><h3>All 100+ strategies — head to head</h3></div>
+        <div class="top"><h3>All 100+ strategies — head to head</h3></div>
         <div class="formula">same contracts, same fills, strategy logic swapped per run</div>
-        <p class="watch">Full leaderboard: Sharpe, total P&amp;L, win rate, profit factor, exit reason breakdown.</p>
+        <p class="watch"><strong>Watches for:</strong> the full leaderboard — Sharpe, total P&amp;L, win rate, profit factor, exit reason breakdown.</p>
       </div>
     </div>
   </div>
@@ -153,7 +125,7 @@
 <section id="how">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">How it works</div>
+      <div class="section-tag">// How it works</div>
       <h2>From strategy to stop-loss report in three steps.</h2>
     </div>
     <div class="flow">
@@ -179,7 +151,7 @@
 <section id="proof">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">Try it yourself</div>
+      <div class="section-tag">// Try it yourself</div>
       <h2>Same entry. Same bars. Five different exits.</h2>
       <p class="section-sub">Three real SPY contracts from April 2026 — same fills, same data, only the exit rule changes. Pick a scenario to see how stop selection alone moves the outcome.</p>
     </div>
@@ -218,7 +190,7 @@
 <section id="learn">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">Learn</div>
+      <div class="section-tag">// Learn</div>
       <h2>A backtester teaches you more when you can see the math behind it.</h2>
       <p class="section-sub">Every subscription includes access to the Vertex Algo Discord — where the stop-loss math and the code that implements it are broken down together, not sold as a black box.</p>
     </div>
@@ -241,18 +213,18 @@
 <section id="pricing">
   <div class="wrap">
     <div class="section-head">
-      <div class="section-tag">Pricing</div>
+      <div class="section-tag">// Pricing</div>
       <h2>One plan. Full access.</h2>
+      <p class="section-sub">Every subscriber gets the full backtesting engine and the Discord channel where the math and code is explained line by line.</p>
     </div>
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-name">Desk</div>
         <div class="plan-price">$20<span>/mo</span></div>
-        <p class="plan-desc">Unlimited backtests, plus the Vertex Algo Discord.</p>
         <ul class="plan-features">
           <li>Unlimited backtests</li>
           <li>100+ exit strategies compared side by side</li>
-          <li>Full Discord: code & math channels, live sessions</li>
+          <li>Full Discord — code, math, live sessions</li>
         </ul>
         <a href="#" class="btn btn-primary" onclick="startCheckout('desk', this); return false;">Subscribe now</a>
       </div>
