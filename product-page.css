@@ -24,6 +24,12 @@
 
   body{
     background:var(--ink);
+    background-image:
+      radial-gradient(1000px circle at 50% 0%, rgba(255,176,32,0.28), transparent 65%),
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-repeat:no-repeat, repeat, repeat;
+    background-size:auto, 40px 40px, 40px 40px;
     color:var(--text);
     font-family:var(--font-body);
     line-height:1.5;
@@ -90,13 +96,6 @@
   }
 
   /* ---------- HERO ---------- */
-  header.hero,
-  #proof{
-    background-image:
-      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-    background-size:40px 40px;
-  }
   header.hero{
     padding:96px 0 80px;
     border-bottom:1px solid var(--line);
