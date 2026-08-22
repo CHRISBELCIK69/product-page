@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 
   :root{
-    --ink:#0B0E11;
+    --ink:#a9b1ba;
     --panel:#12161B;
     --panel-2:#171C22;
     --line:#232A32;
@@ -77,11 +77,11 @@
     font-size:14px;color:var(--text-dim);
     transition:color .15s ease;
   }
-  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover{color:var(--panel);}
   .nav-cta{
     font-family:var(--font-mono);
     font-size:13px;
-    color:var(--ink);
+    color:var(--text);
     background:var(--amber);
     padding:9px 18px;
     border-radius:2px;
@@ -199,22 +199,18 @@
     overflow:hidden;
     background:var(--panel);
   }
-  @media(min-width:760px){.problem-grid{grid-template-columns:repeat(3,1fr);}}
   .problem-card{
-    padding:30px 26px;
+    padding:clamp(18px, 4vw, 30px) clamp(16px, 3.4vw, 26px);
   }
-  .problem-card:nth-child(2){border-left:1px solid var(--line);}
-  .problem-card:nth-child(3){grid-column:1/-1;border-top:1px solid var(--line);}
-  @media(min-width:760px){
-    .problem-card:nth-child(3){grid-column:auto;border-top:none;border-left:1px solid var(--line);}
-  }
+  .problem-card:nth-child(2){border-left:1px solid rgba(255,255,255,0.14);}
+  .problem-card:nth-child(3){grid-column:1/-1;border-top:1px solid rgba(255,255,255,0.14);}
   .problem-card .tag{
-    font-family:var(--font-mono);font-size:12px;color:var(--red);margin-bottom:14px;
+    font-family:var(--font-mono);font-size:clamp(10.5px, 2vw, 12px);color:var(--red);margin-bottom:14px;
   }
   .problem-card h3{
-    font-family:var(--font-display);font-size:19px;font-weight:600;margin-bottom:10px;
+    font-family:var(--font-display);font-size:clamp(16px, 3.6vw, 19px);font-weight:600;margin-bottom:10px;
   }
-  .problem-card p{color:var(--text-dim);font-size:14.5px;line-height:1.6;}
+  .problem-card p{color:var(--text-dim);font-size:clamp(13px, 2.6vw, 14.5px);line-height:1.6;}
 
   /* ---------- STOP TYPES TABLE ---------- */
   .stop-table{
