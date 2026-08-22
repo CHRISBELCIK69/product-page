@@ -26,8 +26,8 @@
     background:var(--ink);
     background-image:
       radial-gradient(1000px circle at 50% 0%, rgba(255,176,32,0.28), transparent 65%),
-      linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
+      linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
     background-repeat:no-repeat, repeat, repeat;
     background-size:auto, 40px 40px, 40px 40px;
     color:var(--text);
