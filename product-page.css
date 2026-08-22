@@ -262,13 +262,12 @@
   }
 
   /* ---------- STOP TYPES (card grid) ---------- */
-  .stopfam-grid{display:grid;grid-template-columns:1fr;gap:12px;max-width:820px;margin:0 auto;}
-  @media(min-width:560px){.stopfam-grid{grid-template-columns:repeat(2,1fr);}}
-  .stopfam-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;}
+  .stopfam-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:820px;margin:0 auto;}
+  .stopfam-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:clamp(12px, 3.6vw, 18px);}
   .stopfam-card .top{margin-bottom:10px;}
-  .stopfam-card h3{font-family:var(--font-display);font-size:15px;font-weight:600;}
-  .stopfam-card .formula{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:8px 10px;margin-bottom:10px;}
-  .stopfam-card .watch{font-size:13px;color:var(--text-dim);line-height:1.5;}
+  .stopfam-card h3{font-family:var(--font-display);font-size:clamp(16px, 4vw, 17px);font-weight:600;}
+  .stopfam-card .formula{font-family:var(--font-mono);font-size:clamp(13px, 3.2vw, 13.5px);color:var(--text-dim);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:8px 10px;margin-bottom:10px;}
+  .stopfam-card .watch{font-size:clamp(14px, 3.6vw, 14.5px);color:var(--text-dim);line-height:1.5;}
   .stopfam-card .watch strong{color:var(--text);font-weight:600;}
 
   /* ---------- HOW IT WORKS ---------- */
