@@ -40,6 +40,10 @@
     elements = stripe.elements({
       mode: 'setup',
       currency: 'usd',
+      // Card only — without this, Stripe shows a tab per payment method
+      // your account has enabled (bank debit, Cash App, etc), plus Link's
+      // own save-info prompt. Just want a plain card form.
+      paymentMethodTypes: ['card'],
       appearance: {
         theme: 'night',
         variables: {
@@ -58,7 +62,10 @@
         },
       },
     });
-    elements.create('payment').mount('#payment-element');
+    elements.create('payment', {
+      wallets: { applePay: 'never', googlePay: 'never' },
+      terms: { card: 'never' },
+    }).mount('#payment-element');
     setBusy(false, 'Start 7-day free trial');
   } catch (err) {
     showError(err.message);
