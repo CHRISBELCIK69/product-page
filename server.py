@@ -20,6 +20,10 @@ app = Flask(__name__, static_folder=None)
 
 stripe.api_key = os.environ.get('STRIPE_SECRET_KEY', '')
 
+# Publishable key never touches the server logic — it's just handed to the
+# browser so Stripe.js can initialize on the custom checkout page.
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
+
 STRIPE_PRICES = {
     'desk': os.environ.get('STRIPE_PRICE_DESK', ''),
 }
@@ -99,6 +103,93 @@ def create_checkout_session():
     return jsonify({'url': session.url})
 
 
+# ── Custom checkout (checkout.html) ───────────────────────────────────────
+# Alternative to the hosted Checkout Session above: the browser collects
+# card details itself via Stripe's Payment Element, against a SetupIntent
+# (no charge happens yet — there's nothing to charge until the trial ends).
+# plan/email/promo_code ride along as SetupIntent metadata since the
+# client can't attach metadata itself; the webhook below reads it back out
+# once the card is confirmed and turns it into an actual subscription.
+
+@app.route('/api/stripe-config')
+def api_stripe_config():
+    return jsonify({'publishableKey': STRIPE_PUBLISHABLE_KEY})
+
+
+@app.route('/api/create-setup-intent', methods=['POST'])
+def create_setup_intent():
+    body       = request.get_json(force=True) or {}
+    plan       = body.get('plan', 'desk')
+    email      = (body.get('email') or '').strip()
+    promo_code = (body.get('promo_code') or '').strip()
+
+    if not STRIPE_PRICES.get(plan):
+        return jsonify({'error': f'unknown plan "{plan}"'}), 400
+    if not email:
+        return jsonify({'error': 'email is required'}), 400
+
+    try:
+        intent = stripe.SetupIntent.create(
+            automatic_payment_methods={'enabled': True},
+            usage='off_session',
+            metadata={'plan': plan, 'email': email, 'promo_code': promo_code},
+        )
+    except stripe.error.StripeError as e:
+        return jsonify({'error': str(e)}), 400
+
+    return jsonify({'clientSecret': intent.client_secret})
+
+
+def _handle_setup_intent_succeeded(setup_intent):
+    # Stripe can redeliver this webhook — without this guard a redelivery
+    # would create a second Stripe customer/subscription for the same signup.
+    if billing.get_subscriber_by_checkout_session(setup_intent['id']):
+        return
+
+    metadata   = setup_intent.get('metadata') or {}
+    plan       = metadata.get('plan', 'desk')
+    email      = metadata.get('email') or None
+    promo_code = metadata.get('promo_code') or ''
+
+    price_id          = STRIPE_PRICES.get(plan)
+    payment_method_id = setup_intent.get('payment_method')
+    if not price_id or not payment_method_id:
+        return
+
+    customer = stripe.Customer.create(
+        email=email,
+        payment_method=payment_method_id,
+        invoice_settings={'default_payment_method': payment_method_id},
+    )
+
+    sub_kwargs = dict(
+        customer=customer.id,
+        items=[{'price': price_id}],
+        trial_period_days=7,
+        default_payment_method=payment_method_id,
+        metadata={'plan': plan},
+    )
+    if promo_code:
+        try:
+            matches = stripe.PromotionCode.list(code=promo_code, active=True, limit=1)
+            if matches.data:
+                sub_kwargs['discounts'] = [{'promotion_code': matches.data[0].id}]
+        except stripe.error.StripeError:
+            pass  # bad/expired code — proceed at full price rather than block signup
+
+    subscription = stripe.Subscription.create(**sub_kwargs)
+
+    billing.upsert_subscriber(
+        stripe_customer_id=customer.id,
+        email=email,
+        stripe_subscription_id=subscription.id,
+        checkout_session_id=setup_intent['id'],
+        license_key=billing.generate_license_key(),
+        plan=plan,
+        status='trialing',
+    )
+
+
 @app.route('/api/stripe/webhook', methods=['POST'])
 def stripe_webhook():
     payload    = request.get_data()
@@ -123,6 +214,9 @@ def stripe_webhook():
             plan=_stripe_get(metadata, 'plan'),
             status='active',
         )
+
+    elif event['type'] == 'setup_intent.succeeded':
+        _handle_setup_intent_succeeded(obj)
 
     elif event['type'] in ('customer.subscription.updated', 'customer.subscription.deleted'):
         status = 'canceled' if event['type'] == 'customer.subscription.deleted' else obj['status']
