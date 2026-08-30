@@ -151,13 +151,13 @@ def _handle_setup_intent_succeeded(setup_intent):
     if billing.get_subscriber_by_checkout_session(setup_intent['id']):
         return
 
-    metadata   = setup_intent.get('metadata') or {}
-    plan       = metadata.get('plan', 'desk')
-    email      = metadata.get('email') or None
-    promo_code = metadata.get('promo_code') or ''
+    metadata   = _stripe_get(setup_intent, 'metadata') or {}
+    plan       = _stripe_get(metadata, 'plan', 'desk')
+    email      = _stripe_get(metadata, 'email') or None
+    promo_code = _stripe_get(metadata, 'promo_code') or ''
 
     price_id          = STRIPE_PRICES.get(plan)
-    payment_method_id = setup_intent.get('payment_method')
+    payment_method_id = _stripe_get(setup_intent, 'payment_method')
     if not price_id or not payment_method_id:
         return
 
