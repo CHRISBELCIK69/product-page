@@ -130,7 +130,12 @@ def create_setup_intent():
 
     try:
         intent = stripe.SetupIntent.create(
-            automatic_payment_methods={'enabled': True},
+            # Must match the client's elements({paymentMethodTypes:['card']})
+            # exactly — pairing an explicit list on one side with
+            # automatic_payment_methods on the other is what threw
+            # "cannot be confirmed through the API configured with
+            # automatic_payment_methods or allowed_payment_method_types".
+            payment_method_types=['card'],
             usage='off_session',
             metadata={'plan': plan, 'email': email, 'promo_code': promo_code},
         )
