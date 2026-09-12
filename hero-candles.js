@@ -1,9 +1,10 @@
 // ============================================================
 // hero-candles.js
 // Decorative candlestick chart that prints into the hero canvas
-// bar-by-bar on an upward trend, timed to finish just before the
-// hero text starts fading in (see .hero-content's animation-delay
-// values in product-page.css, staggered from ~1.5s).
+// bar-by-bar — a noisy random walk with a gentle upward drift, so
+// individual bars vary in length and some are genuine red pullbacks,
+// while the 26-bar sequence still trends up overall. Timed to finish
+// right as .hero-content's fade-in starts (product-page.css).
 // ============================================================
 
 (function () {
@@ -21,16 +22,23 @@
 
   function genBars() {
     bars = [];
-    let price = 40;
+    const base       = 38;   // starting price level
+    const totalRise  = 34;   // guaranteed rise from first bar to last
+    let prevClose = base;
     for (let i = 0; i < BAR_COUNT; i++) {
-      const drift = 1.6 + Math.random() * 1.2;      // steady upward bias
-      const noise = (Math.random() - 0.42) * 3.2;    // occasional pullback
-      const open  = price;
-      const close = Math.max(4, open + drift + noise);
-      const high  = Math.max(open, close) + Math.random() * 1.6;
-      const low   = Math.max(1, Math.min(open, close) - Math.random() * 1.6);
+      // Bars scatter around a steadily rising trend line rather than a
+      // pure random walk — a walk's noise can easily wander the whole
+      // chart down over just 26 steps, and the ask was randomness
+      // *within* an upward trajectory, not instead of it.
+      const trendLevel = base + (totalRise * (i + 1)) / BAR_COUNT;
+      const noise = (Math.random() - 0.5) * 7;
+      const open  = prevClose;
+      const close = Math.max(3, trendLevel + noise);
+      const wick  = 0.4 + Math.random() * 2.2;        // wick length varies bar to bar
+      const high  = Math.max(open, close) + Math.random() * wick;
+      const low   = Math.max(1, Math.min(open, close) - Math.random() * wick);
       bars.push({ open, close, high, low });
-      price = close;
+      prevClose = close;
     }
   }
 
